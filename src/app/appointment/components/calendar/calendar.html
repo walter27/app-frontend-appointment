@@ -1,0 +1,19 @@
+<div class="calendar-container app-calendar app-calendar-shell">
+    <full-calendar [options]="calendarOptions"></full-calendar>
+</div>
+@if (openModal()) {
+<app-modal (saved)="onModalSave()">
+    @if(loading()){
+    <app-loading />
+    }
+    @if(success()){
+    <app-success />
+    }
+    @if(error()){
+    <app-error></app-error>
+    }
+    @if(!success() && !error() && !loading()){
+    <app-form />
+    }
+</app-modal>
+}

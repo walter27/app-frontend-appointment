@@ -1,0 +1,328 @@
+@import "tailwindcss";
+
+@layer base {
+  :root {
+    --app-bg: #f1f5f9;
+    --app-surface: #ffffff;
+    --app-muted: #64748b;
+    --app-text: #0f172a;
+    --app-border: #dbe2ea;
+    --app-primary: #0284c7;
+    --app-primary-hover: #0369a1;
+    --calendar-header-row: 72px;
+  }
+
+  html {
+    @apply antialiased;
+    font-family: "Inter", "Segoe UI", sans-serif;
+  }
+
+  body {
+    @apply bg-slate-100 text-slate-900;
+  }
+}
+
+@layer components {
+  .app-surface {
+    @apply rounded-2xl border border-slate-200 bg-white shadow-sm;
+  }
+
+  .app-title {
+    @apply text-2xl font-bold tracking-tight text-slate-800;
+  }
+
+  .app-subtitle {
+    @apply text-sm text-slate-500;
+  }
+
+  .app-btn {
+    @apply inline-flex items-center justify-center rounded-lg border px-4 py-2 text-sm font-semibold transition;
+  }
+
+  .app-btn-primary {
+    @apply border-sky-700 bg-sky-700 text-white hover:bg-sky-800;
+  }
+
+  .app-btn-ghost {
+    @apply border-slate-300 bg-white text-slate-700 hover:bg-slate-100;
+  }
+
+  .app-icon-btn {
+    @apply inline-flex h-10 w-10 items-center justify-center rounded-full border-0 text-xl text-slate-500 transition hover:bg-slate-100 hover:text-slate-800;
+  }
+
+  .app-field {
+    @apply w-full rounded-lg border border-slate-300 bg-white px-3 py-2 text-sm text-slate-900 outline-none transition focus:border-sky-500 focus:ring-2 focus:ring-sky-200;
+  }
+
+  .app-field-error {
+    @apply border-red-500 focus:border-red-500 focus:ring-red-200;
+  }
+
+  .app-label {
+    @apply block text-sm font-medium text-slate-700;
+  }
+
+  .app-error-text {
+    @apply block text-xs font-medium text-red-600;
+  }
+
+  .app-status-card {
+    @apply mx-auto w-full max-w-2xl rounded-2xl border-0 bg-transparent px-6 py-8 shadow-none sm:px-10 sm:py-10;
+  }
+
+  .app-status-icon {
+    @apply flex h-16 w-16 shrink-0 items-center justify-center rounded-full border-0 sm:h-20 sm:w-20;
+  }
+
+  .app-status-success {
+    @apply bg-transparent;
+  }
+
+  .app-status-success .app-status-icon {
+    @apply text-green-500;
+  }
+
+  .app-status-error {
+    @apply bg-transparent;
+  }
+
+  .app-status-error .app-status-icon {
+    @apply text-rose-400;
+  }
+}
+
+@layer utilities {
+  .app-modal-backdrop {
+    @apply fixed inset-0 z-50 flex items-center justify-center overflow-y-auto bg-slate-900/50 p-4;
+  }
+
+  .app-modal-panel {
+    @apply relative max-h-[90vh] w-full max-w-3xl overflow-y-auto rounded-2xl border border-slate-200 bg-white shadow-xl;
+  }
+
+  .app-modal-content {
+    @apply px-5 py-4 sm:px-10;
+  }
+
+  .app-modal-actions {
+    @apply flex flex-col-reverse gap-2 border-t border-slate-200 px-5 py-4 sm:flex-row sm:justify-end sm:px-6;
+  }
+
+  .app-calendar-shell {
+    @apply rounded-2xl border-0 bg-white px-4 pb-4 pt-0 shadow-none;
+  }
+
+  .app-calendar .fc {
+    @apply text-slate-700;
+  }
+
+  .app-calendar .fc-toolbar.fc-header-toolbar {
+    @apply mb-0 items-center justify-between;
+    min-height: var(--calendar-header-row);
+    padding-bottom: 0 !important;
+    margin-top: 0 !important;
+  }
+
+  .app-calendar .fc .fc-toolbar-chunk {
+    @apply inline-flex items-center gap-2;
+  }
+
+  .app-calendar .fc-toolbar-title {
+    @apply text-3xl font-bold tracking-tight text-slate-800;
+    margin: 0 !important;
+    line-height: 1.1;
+  }
+
+  .app-aside-title-row {
+    min-height: var(--calendar-header-row);
+  }
+
+  .app-calendar .fc .fc-scrollgrid {
+    margin-top: 0 !important;
+    border: 0 !important;
+  }
+
+  .app-calendar .fc-theme-standard .fc-scrollgrid {
+    border: 0 !important;
+  }
+
+  .app-calendar .fc-theme-standard .fc-scrollgrid-section > * {
+    border-left: 0 !important;
+    border-right: 0 !important;
+  }
+
+  .app-calendar .fc-theme-standard .fc-scrollgrid-section:first-child > * {
+    border-top: 0 !important;
+  }
+
+  .app-calendar .fc-theme-standard .fc-scrollgrid-section:last-child > * {
+    border-bottom: 0 !important;
+  }
+
+  .app-calendar .fc .fc-button-primary {
+    background: transparent !important;
+    border: none !important;
+    color: #334155 !important;
+    box-shadow: none !important;
+    padding: 0.45rem 0.6rem !important;
+    border-radius: 9999px !important;
+  }
+
+  .app-calendar .fc .fc-button-primary:hover,
+  .app-calendar .fc .fc-button-primary:focus {
+    background: #f1f5f9 !important;
+    color: #0f172a !important;
+  }
+
+  .app-calendar .fc .fc-button-primary:disabled {
+    color: #94a3b8 !important;
+    background: transparent !important;
+    opacity: 1 !important;
+  }
+
+  .app-calendar .fc .fc-today-button {
+    border: 1px solid #64748b !important;
+    background: transparent !important;
+    color: #1e293b !important;
+    padding: 0.5rem 1.5rem !important;
+    border-radius: 9999px !important;
+    font-weight: 600 !important;
+  }
+
+  .app-calendar .fc .fc-prev-button,
+  .app-calendar .fc .fc-next-button {
+    font-size: 1.45rem !important;
+    color: #334155 !important;
+    padding-inline: 0.4rem !important;
+  }
+
+  .app-calendar .fc .fc-toolbar-chunk:last-child {
+    @apply gap-3;
+  }
+
+  .app-calendar .fc-col-header-cell-cushion {
+    @apply py-2 text-xs font-bold uppercase tracking-wide text-slate-500;
+  }
+
+  .app-calendar .fc-timegrid-slot-label-cushion {
+    @apply text-xs font-medium text-slate-400;
+  }
+
+  .app-calendar .fc-timegrid-slot {
+    @apply h-14;
+  }
+
+  .app-calendar .fc-timegrid-col.fc-day-today {
+    @apply bg-sky-50;
+  }
+
+  .app-calendar .fc-timegrid-col.fc-day-empty {
+    @apply bg-slate-100;
+  }
+
+  .app-calendar .fc-event {
+    @apply rounded-lg border-0 px-1 py-0.5 shadow-sm;
+  }
+
+  .app-calendar .fc-event-main {
+    @apply text-xs font-semibold;
+  }
+
+  .app-calendar .fc-event.fc-event-disabled {
+    @apply opacity-70;
+    cursor: not-allowed;
+  }
+
+  .app-calendar .fc-event.fc-event-past-hidden {
+    display: none !important;
+  }
+
+  .app-datepicker-shell .p-datepicker,
+  .app-datepicker-shell .p-datepicker-inline,
+  .app-datepicker-shell .p-component {
+    border: 0 !important;
+    box-shadow: none !important;
+    background: transparent !important;
+  }
+
+  .app-datepicker-shell .p-datepicker-header {
+    background: transparent !important;
+    border: 0 !important;
+  }
+
+  .app-datepicker-shell .p-datepicker .p-datepicker-day-selected,
+  .app-datepicker-shell .p-datepicker .p-highlight,
+  .app-datepicker-shell .p-datepicker .p-datepicker-day.p-highlight {
+    background: #0ea5e9 !important;
+    border-color: #0ea5e9 !important;
+    color: #ffffff !important;
+  }
+
+  @media (max-width: 767px) {
+    .app-calendar-shell {
+      @apply w-full rounded-xl px-0 pb-2 pt-0;
+      overflow-x: hidden;
+    }
+
+    .app-calendar .fc {
+      min-width: 0;
+    }
+
+    .app-calendar .fc-toolbar.fc-header-toolbar {
+      min-height: auto;
+      @apply grid grid-cols-1 gap-2 py-2;
+      align-items: center !important;
+    }
+
+    .app-calendar .fc .fc-toolbar-chunk:nth-child(2) {
+      display: none !important;
+    }
+
+    .app-calendar .fc .fc-toolbar-chunk:first-child {
+      @apply w-full;
+    }
+
+    .app-calendar .fc .fc-toolbar-chunk:last-child {
+      @apply inline-flex w-full items-center justify-end gap-2;
+    }
+
+    .app-calendar .fc-toolbar-title {
+      font-size: clamp(1.35rem, 5vw, 1.7rem) !important;
+      font-weight: 700 !important;
+      letter-spacing: -0.01em;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      line-height: 1.15;
+    }
+
+    .app-calendar .fc .fc-today-button {
+      padding: 0.4rem 1rem !important;
+      font-size: 0.82rem !important;
+      min-height: 2.15rem !important;
+      border-color: #94a3b8 !important;
+      color: #0f172a !important;
+    }
+
+    .app-calendar .fc .fc-prev-button,
+    .app-calendar .fc .fc-next-button {
+      font-size: 1.2rem !important;
+      min-height: 2.15rem !important;
+      min-width: 2rem !important;
+      padding-inline: 0.2rem !important;
+    }
+
+    .app-calendar .fc-timegrid-slot {
+      height: 2.3rem !important;
+    }
+
+    .app-calendar .fc-col-header-cell-cushion {
+      @apply py-1 text-[10px];
+    }
+
+    .app-calendar .fc-timegrid-slot-label-cushion {
+      @apply text-[10px];
+    }
+  }
+}

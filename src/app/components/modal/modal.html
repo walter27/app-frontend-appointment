@@ -1,0 +1,21 @@
+<div class="app-modal-backdrop">
+  <div class="app-modal-panel">
+    <button type="button" aria-label="Cerrar modal" (click)="close()"
+      class="app-icon-btn absolute right-4 top-4">
+      <span class="text-xl leading-none">&times;</span>
+    </button>
+
+    <div class="app-modal-content mt-8">
+      <ng-content></ng-content>
+    </div>
+
+    <div class="app-modal-actions">
+      <button type="button" (click)="close()" class="app-btn app-btn-ghost min-w-32 sm:min-w-36">
+        Cancel
+      </button>
+      <button type="button" (click)="save()" class="app-btn app-btn-primary min-w-32 sm:min-w-36">
+        Accept
+      </button>
+    </div>
+  </div>
+</div>

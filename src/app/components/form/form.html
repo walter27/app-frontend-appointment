@@ -1,0 +1,65 @@
+@let columns = fieldColumns();
+<form [formGroup]="form" (ngSubmit)="submit()" class="space-y-6">
+    <div>
+        <h4 class="app-title text-xl">Register your appointment</h4>
+        <p class="app-subtitle mt-1">Complete the form details.</p>
+    </div>
+
+  <div class="grid grid-cols-1 gap-2 md:[grid-template-columns:repeat(auto-fit,minmax(280px,1fr))]">
+    @for (column of columns; track $index) {
+        <div class="space-y-3 p-2">
+            @for (field of column; track field.name) {
+            <div class="space-y-1">
+                @if (field.type === 'text' || field.type === 'email' || field.type === 'password') {
+                <label class="app-label">{{ field.label }}</label>
+                <input [type]="field.type" [formControlName]="field.name" [placeholder]="field.placeholder || ''"
+                    class="app-field"
+                    [ngClass]="{
+                  'app-field-error': hasError(field.name)
+                }" />
+                @if (hasError(field.name)) {
+                <small class="app-error-text">Invalid field</small>
+                }
+                }
+
+                @if (field.type === 'select') {
+                <label class="app-label">{{ field.label }}</label>
+                <select [formControlName]="field.name" class="app-field"
+                    [ngClass]="{
+                  'app-field-error': hasError(field.name)
+                }">
+                    <option value="">Select</option>
+                    @for (opt of field.options; track $index) {
+                    <option [value]="opt.value">{{ opt.label }}</option>
+                    }
+                </select>
+                @if (hasError(field.name)) {
+                <small class="app-error-text">Invalid field</small>
+                }
+                }
+
+                @if (field.type === 'radio') {
+                <label class="app-label">{{ field.label }}</label>
+                <div class="flex flex-wrap gap-3">
+                    @for (opt of field.options; track $index) {
+                    <label class="inline-flex items-center gap-2 text-sm text-slate-700">
+                        <input type="radio" [formControlName]="field.name" [value]="opt.value" />
+                        <span>{{ opt.label }}</span>
+                    </label>
+                    }
+                </div>
+                }
+
+                @if (field.type === 'checkbox') {
+                <label class="inline-flex items-center gap-2 text-sm text-slate-700">
+                    <input type="checkbox" [formControlName]="field.name" />
+                    <span>{{ field.label }}</span>
+                </label>
+                }
+            </div>
+            }
+        </div>
+        }
+    </div>
+
+</form>

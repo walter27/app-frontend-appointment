@@ -1,0 +1,36 @@
+.loader-ring {
+  position: relative;
+  width: 3.5rem;
+  height: 3.5rem;
+}
+
+.loader-dot {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 0.55rem;
+  height: 0.55rem;
+  margin: -0.275rem;
+  border-radius: 9999px;
+  background: #0369a1;
+  transform-origin: 0 1.25rem;
+  animation: loader-fade 1s ease-in-out infinite;
+}
+
+.loader-dot:nth-child(1) { transform: rotate(0deg) translateY(-1.25rem); animation-delay: 0s; }
+.loader-dot:nth-child(2) { transform: rotate(45deg) translateY(-1.25rem); animation-delay: 0.12s; }
+.loader-dot:nth-child(3) { transform: rotate(90deg) translateY(-1.25rem); animation-delay: 0.24s; }
+.loader-dot:nth-child(4) { transform: rotate(135deg) translateY(-1.25rem); animation-delay: 0.36s; }
+.loader-dot:nth-child(5) { transform: rotate(180deg) translateY(-1.25rem); animation-delay: 0.48s; }
+.loader-dot:nth-child(6) { transform: rotate(225deg) translateY(-1.25rem); animation-delay: 0.60s; }
+.loader-dot:nth-child(7) { transform: rotate(270deg) translateY(-1.25rem); animation-delay: 0.72s; }
+.loader-dot:nth-child(8) { transform: rotate(315deg) translateY(-1.25rem); animation-delay: 0.84s; }
+
+@keyframes loader-fade {
+  0%, 100% {
+    opacity: 0.3;
+  }
+  50% {
+    opacity: 1;
+  }
+}
