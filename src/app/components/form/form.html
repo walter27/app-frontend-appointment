@@ -1,65 +1,181 @@
-@let columns = fieldColumns();
-<form [formGroup]="form" (ngSubmit)="submit()" class="space-y-6">
-    <div>
-        <h4 class="app-title text-xl">Register your appointment</h4>
-        <p class="app-subtitle mt-1">Complete the form details.</p>
-    </div>
-
-  <div class="grid grid-cols-1 gap-2 md:[grid-template-columns:repeat(auto-fit,minmax(280px,1fr))]">
-    @for (column of columns; track $index) {
-        <div class="space-y-3 p-2">
-            @for (field of column; track field.name) {
-            <div class="space-y-1">
-                @if (field.type === 'text' || field.type === 'email' || field.type === 'password') {
-                <label class="app-label">{{ field.label }}</label>
-                <input [type]="field.type" [formControlName]="field.name" [placeholder]="field.placeholder || ''"
-                    class="app-field"
-                    [ngClass]="{
-                  'app-field-error': hasError(field.name)
-                }" />
-                @if (hasError(field.name)) {
-                <small class="app-error-text">Invalid field</small>
-                }
-                }
-
-                @if (field.type === 'select') {
-                <label class="app-label">{{ field.label }}</label>
-                <select [formControlName]="field.name" class="app-field"
-                    [ngClass]="{
-                  'app-field-error': hasError(field.name)
-                }">
-                    <option value="">Select</option>
-                    @for (opt of field.options; track $index) {
-                    <option [value]="opt.value">{{ opt.label }}</option>
-                    }
-                </select>
-                @if (hasError(field.name)) {
-                <small class="app-error-text">Invalid field</small>
-                }
-                }
-
-                @if (field.type === 'radio') {
-                <label class="app-label">{{ field.label }}</label>
-                <div class="flex flex-wrap gap-3">
-                    @for (opt of field.options; track $index) {
-                    <label class="inline-flex items-center gap-2 text-sm text-slate-700">
-                        <input type="radio" [formControlName]="field.name" [value]="opt.value" />
-                        <span>{{ opt.label }}</span>
-                    </label>
-                    }
-                </div>
-                }
-
-                @if (field.type === 'checkbox') {
-                <label class="inline-flex items-center gap-2 text-sm text-slate-700">
-                    <input type="checkbox" [formControlName]="field.name" />
-                    <span>{{ field.label }}</span>
-                </label>
-                }
-            </div>
-            }
-        </div>
+<form #formRoot [formGroup]="form" class="app-form-shell">
+  @if (hasMultipleSteps()) {
+    <div class="app-step-header">
+      <button
+        type="button"
+        class="app-step-btn"
+        (click)="previousStep()"
+        [disabled]="isFirstStep()"
+      >
+        &#x2039;
+      </button>
+      <div class="app-step-indicator">
+        @for (step of stepNumbers(); track step; let index = $index) {
+          <span
+            class="app-step-bar"
+            [ngClass]="{ 'app-step-bar-active': index <= currentStepIndex }"
+          ></span>
         }
+      </div>
+      <button type="button" class="app-step-btn" (click)="nextStep()" [disabled]="isLastStep()">
+        &#x203A;
+      </button>
     </div>
+  }
 
+  <div class="space-y-1">
+    <h4 class="app-title text-xl md:text-2xl">Register your appointment</h4>
+  </div>
+
+  <div class="app-form-grid grid gap-4" [style.gridTemplateColumns]="currentStepGridTemplateColumns()">
+    @for (field of fieldsForCurrentStep(); track field.name) {
+      <div
+        class="space-y-1.5"
+        [style.gridRowStart]="fieldRow(field)"
+        [style.gridColumnStart]="fieldColumn(field)"
+      >
+        @if (
+          field.type === 'text' ||
+          field.type === 'email' ||
+          field.type === 'password' ||
+          field.type === 'number'
+        ) {
+          <div
+            class="app-floating-field"
+            [ngClass]="{
+              'app-input-shell-error': hasError(field.name),
+              'app-input-shell-valid': isValidControl(field.name),
+              'app-floating-field-error': hasError(field.name)
+            }"
+          >
+            <label
+              class="app-floating-label"
+              [ngClass]="{
+                'app-custom-label-error': hasError(field.name),
+                'app-floating-label-active': hasValue(field.name)
+              }"
+            >
+              {{ field.label }}
+            </label>
+            <input
+              [type]="field.type"
+              [formControlName]="field.name"
+              [placeholder]="field.placeholder || ''"
+              [attr.min]="field.min ?? null"
+              [attr.max]="field.max ?? null"
+              [attr.step]="fieldInputStep(field)"
+              class="app-custom-input app-custom-input-floating"
+            />
+          </div>
+          @if (hasError(field.name)) {
+            <small class="app-error-text">{{ errorMessage(field) }}</small>
+          }
+        }
+
+        @if (field.type === 'file') {
+          <div
+            class="app-floating-field app-file-trigger"
+            [ngClass]="{
+              'app-input-shell-error': hasError(field.name),
+              'app-input-shell-valid': isValidControl(field.name)
+            }"
+            (click)="openFileDialog(field.name)"
+          >
+            <label
+              class="app-floating-label"
+              [ngClass]="{
+                'app-custom-label-error': hasError(field.name),
+                'app-floating-label-active': hasValue(field.name)
+              }"
+            >
+              {{ field.label }}
+            </label>
+            <span class="app-file-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M21.44 11.05 12.25 20.2a6 6 0 0 1-8.49-8.49l9.2-9.2a4 4 0 0 1 5.66 5.66l-9.2 9.2a2 2 0 1 1-2.83-2.83l8.5-8.49"></path>
+              </svg>
+            </span>
+            <input
+              type="text"
+              readonly
+              [value]="fileLabel(field.name)"
+              class="app-custom-input app-custom-input-floating app-file-input-display"
+            />
+            <input
+              type="file"
+              [id]="'file-input-' + field.name"
+              [attr.accept]="field.accept ?? null"
+              [attr.multiple]="field.multiple ? '' : null"
+              class="hidden"
+              (change)="onFileChange(field.name, $event)"
+            />
+          </div>
+          @if (hasError(field.name)) {
+            <small class="app-error-text">{{ errorMessage(field) }}</small>
+          }
+        }
+
+        @if (field.type === 'select') {
+          <div
+            class="app-floating-field"
+            [ngClass]="{
+              'app-input-shell-error': hasError(field.name),
+              'app-input-shell-valid': isValidControl(field.name),
+              'app-floating-field-error': hasError(field.name)
+            }"
+          >
+            <label
+              class="app-floating-label"
+              [ngClass]="{
+                'app-custom-label-error': hasError(field.name),
+                'app-floating-label-active': hasValue(field.name)
+              }"
+            >
+              {{ field.label }}
+            </label>
+            <select
+              [formControlName]="field.name"
+              class="app-custom-input app-custom-input-floating bg-transparent"
+            >
+              <option value="">Select</option>
+              @for (opt of (field.options ?? []); track $index) {
+                <option [value]="opt.value">{{ opt.label }}</option>
+              }
+            </select>
+          </div>
+          @if (hasError(field.name)) {
+            <small class="app-error-text">{{ errorMessage(field) }}</small>
+          }
+        }
+
+        @if (field.type === 'radio') {
+          <div class="app-label-row">
+            <label class="app-custom-label">
+              {{ field.label }}
+            </label>
+          </div>
+          <div class="app-radio-shell">
+            @for (opt of (field.options ?? []); track $index) {
+              <label class="inline-flex items-center gap-2 text-sm text-slate-700">
+                <input type="radio" [formControlName]="field.name" [value]="opt.value" />
+                <span>{{ opt.label }}</span>
+              </label>
+            }
+          </div>
+          @if (hasError(field.name)) {
+            <small class="app-error-text">{{ errorMessage(field) }}</small>
+          }
+        }
+
+        @if (field.type === 'checkbox') {
+          <label
+            class="inline-flex items-center gap-2 rounded-xl border border-slate-200 bg-white px-3 py-2 text-sm text-slate-700"
+          >
+            <input type="checkbox" [formControlName]="field.name" />
+            <span>{{ field.label }}</span>
+          </label>
+        }
+      </div>
+    }
+  </div>
 </form>

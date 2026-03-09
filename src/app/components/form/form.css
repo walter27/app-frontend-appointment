@@ -1,0 +1,192 @@
+@reference "../../../styles.css";
+
+.app-form-shell {
+  @apply mx-auto w-full max-w-4xl space-y-6 rounded-2xl p-4 md:p-6;
+}
+
+.app-step-header {
+  @apply -mx-4 flex items-center gap-3;
+}
+
+.app-step-indicator {
+  @apply flex flex-1 items-center gap-2;
+}
+
+.app-step-bar {
+  @apply h-0.5 flex-1 rounded-full bg-stone-300/80;
+}
+
+.app-step-bar-active {
+  background-color: var(--app-primary);
+}
+
+.app-label-row {
+  @apply flex items-center gap-2;
+}
+
+.app-custom-label {
+  @apply text-[1.75rem] font-normal leading-none;
+  font-size: clamp(1rem, 1.1vw, 1.75rem);
+  color: #000000;
+}
+
+.app-custom-label-error {
+  @apply text-red-500;
+}
+
+.app-label-line {
+  @apply h-[2px] flex-1 rounded-full;
+  background-color: color-mix(in srgb, var(--app-primary) 45%, white);
+}
+
+.app-input-shell {
+  @apply flex items-center rounded-md border border-gray-400 bg-stone-100 px-4 py-2 transition;
+  max-width: 19rem;
+  width: 100%;
+}
+
+.app-input-shell:focus-within {
+  background-color: var(--app-surface);
+}
+
+.app-input-shell-error {
+  @apply border-red-500;
+}
+
+.app-input-shell-valid {
+  border-color: #000000;
+}
+
+.app-floating-field {
+  @apply relative rounded-md border border-gray-400 bg-stone-100 px-2 pb-2;
+  width: 100%;
+  overflow: visible;
+}
+
+.app-floating-field:focus-within {
+  background-color: var(--app-surface);
+}
+
+.app-floating-label {
+  @apply pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 px-1 text-base text-gray-500 transition-all duration-200;
+  background-color: transparent;
+}
+
+.app-floating-field:focus-within .app-floating-label,
+.app-floating-label-active {
+  @apply top-0 -translate-y-1/2 text-xs;
+  color: #000000;
+  background-color: var(--app-surface);
+}
+
+.app-floating-field-error .app-floating-label {
+  color: #ef4444;
+}
+
+.app-floating-field-error:focus-within .app-floating-label,
+.app-floating-field-error .app-floating-label.app-floating-label-active {
+  color: #ef4444;
+}
+
+.app-custom-input {
+  @apply w-full border-0 bg-transparent text-base text-black outline-none placeholder:text-slate-400;
+}
+
+.app-custom-input:focus {
+  background-color: var(--app-surface);
+}
+
+.app-custom-input-floating {
+  @apply pt-3;
+}
+
+.app-file-shell {
+  @apply space-y-2 rounded-md border border-gray-400 bg-stone-100 px-4 py-3;
+  width: 100%;
+}
+
+.app-file-trigger {
+  cursor: pointer;
+}
+
+.app-file-icon {
+  @apply absolute left-2 top-1/2 -translate-y-1/2 text-slate-500;
+  width: 1rem;
+  height: 1rem;
+}
+
+.app-file-icon svg {
+  width: 100%;
+  height: 100%;
+}
+
+.app-file-input-display {
+  @apply pl-6;
+}
+
+.app-file-trigger .app-floating-label {
+  left: 1.9rem;
+}
+
+.app-radio-shell {
+  @apply flex flex-wrap gap-3 rounded-md border border-gray-400 bg-stone-100 p-3;
+  max-width: 19rem;
+  width: 100%;
+}
+
+.app-input-shell.app-input-shell-error,
+.app-floating-field.app-input-shell-error,
+.app-file-shell.app-input-shell-error,
+.app-radio-shell.app-input-shell-error {
+  border-color: #ef4444 !important;
+}
+
+.app-step-btn {
+  @apply inline-flex h-11 w-11 items-center justify-center rounded-lg border-0 bg-transparent text-4xl leading-none transition disabled:cursor-not-allowed disabled:opacity-45;
+  color: var(--app-primary);
+  position: relative;
+  top: -5px;
+}
+
+.app-step-btn:hover {
+  background-color: transparent;
+}
+
+@media (max-width: 767px) {
+  .app-form-shell {
+    @apply p-3;
+  }
+
+  .app-form-grid {
+    grid-template-columns: 1fr !important;
+  }
+
+  .app-form-grid > div {
+    grid-column: 1 !important;
+    grid-row: auto !important;
+  }
+
+  .app-step-header {
+    @apply -mx-1 gap-1;
+  }
+
+  .app-step-btn {
+    @apply h-9 w-9 text-3xl;
+    top: -3px;
+  }
+
+  .app-floating-field,
+  .app-input-shell,
+  .app-file-shell,
+  .app-radio-shell {
+    max-width: 100%;
+  }
+
+  .app-file-trigger .app-floating-label {
+    left: 1.75rem;
+  }
+
+  .app-custom-input {
+    @apply text-sm;
+  }
+}

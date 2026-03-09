@@ -19,7 +19,8 @@ export interface CustomerDto {
     last_name: string,
     email: string,
     phone: string,
-    type_document_id: 1
+    type_document_id: number,
+    entity_type_id: number
 }
 
 export interface AppointmentDto {
@@ -32,8 +33,10 @@ export interface AppointmentDto {
 }
 export interface ShiftAssignedDto {
     id: number | null
-    date_register: string;
-    customer_id: number | null;
-    employee_id: number | null;
-    appointment_id: number | null;
+    dateRegister: string;
+    customerId: number | null;
+    employeeId: number | null;
+    appointmentId: number | null;
+    attached?: File | null;
+    filePath?: string | null;
 }

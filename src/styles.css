@@ -98,7 +98,15 @@
   }
 
   .app-modal-panel {
-    @apply relative max-h-[90vh] w-full max-w-3xl overflow-y-auto rounded-2xl border border-slate-200 bg-white shadow-xl;
+    @apply relative max-h-[90vh] w-full max-w-md overflow-y-auto rounded-2xl border border-slate-200 bg-white shadow-xl;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+  }
+
+  .app-modal-panel::-webkit-scrollbar {
+    width: 0;
+    height: 0;
+    display: none;
   }
 
   .app-modal-content {
@@ -251,12 +259,97 @@
     border: 0 !important;
   }
 
-  .app-datepicker-shell .p-datepicker .p-datepicker-day-selected,
-  .app-datepicker-shell .p-datepicker .p-highlight,
-  .app-datepicker-shell .p-datepicker .p-datepicker-day.p-highlight {
+  .app-datepicker-shell .p-datepicker .p-datepicker-title,
+  .app-datepicker-shell .p-datepicker .p-datepicker-title span,
+  .app-datepicker-shell .p-datepicker .p-datepicker-select-month,
+  .app-datepicker-shell .p-datepicker .p-datepicker-select-year,
+  .app-datepicker-shell .p-datepicker .p-datepicker-prev,
+  .app-datepicker-shell .p-datepicker .p-datepicker-next,
+  .app-datepicker-shell .p-datepicker .p-datepicker-prev .p-icon,
+  .app-datepicker-shell .p-datepicker .p-datepicker-next .p-icon {
+    color: #334155 !important;
+    opacity: 1 !important;
+    fill: #334155 !important;
+    stroke: #334155 !important;
+  }
+
+  .app-datepicker-shell .p-datepicker .p-datepicker-weekday-cell,
+  .app-datepicker-shell .p-datepicker .p-datepicker-weekday {
+    color: #475569 !important;
+    font-weight: 600 !important;
+  }
+
+  .app-datepicker-shell .p-datepicker .p-datepicker-day-cell {
+    color: #334155 !important;
+  }
+
+  .app-datepicker-shell .p-datepicker .p-datepicker-day {
+    color: #334155 !important;
+    width: 2.25rem !important;
+    height: 2.25rem !important;
+    min-width: 2.25rem !important;
+    min-height: 2.25rem !important;
+    aspect-ratio: 1 / 1 !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    line-height: 1 !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    box-sizing: border-box !important;
+    transform: none !important;
+    border-radius: 9999px !important;
+  }
+
+  .app-datepicker-shell .p-datepicker .p-datepicker-day:hover,
+  .app-datepicker-shell .p-datepicker .p-datepicker-day-cell:hover {
+    color: #334155 !important;
+  }
+
+  .app-datepicker-shell .p-datepicker .p-datepicker-day-cell.p-datepicker-today .p-datepicker-day:not(.p-highlight):not(.p-datepicker-day-selected) {
+    background: transparent !important;
+    border-color: transparent !important;
+    color: #334155 !important;
+  }
+
+  .app-datepicker-shell .p-datepicker .p-datepicker-day:not(.p-disabled):hover,
+  .app-datepicker-shell .p-datepicker .p-datepicker-day:not(.p-disabled):enabled:hover {
     background: #0ea5e9 !important;
     border-color: #0ea5e9 !important;
     color: #ffffff !important;
+    border-radius: 9999px !important;
+  }
+
+  .app-datepicker-shell .p-datepicker .p-datepicker-day:not(.p-disabled):hover,
+  .app-datepicker-shell .p-datepicker .p-datepicker-day:not(.p-disabled):enabled:hover,
+  .app-datepicker-shell .p-datepicker .p-highlight,
+  .app-datepicker-shell .p-datepicker .p-datepicker-day-selected,
+  .app-datepicker-shell .p-datepicker .p-datepicker-day.p-highlight {
+    width: 2.25rem !important;
+    height: 2.25rem !important;
+    min-width: 2.25rem !important;
+    min-height: 2.25rem !important;
+    aspect-ratio: 1 / 1 !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    box-sizing: border-box !important;
+    transform: none !important;
+    border-radius: 9999px !important;
+  }
+
+  .app-datepicker-shell .p-datepicker .p-datepicker-day-selected,
+  .app-datepicker-shell .p-datepicker .p-highlight,
+  .app-datepicker-shell .p-datepicker .p-datepicker-day.p-highlight,
+  .app-datepicker-shell .p-datepicker .p-focus,
+  .app-datepicker-shell .p-datepicker .p-highlight:hover,
+  .app-datepicker-shell .p-datepicker .p-datepicker-day-selected:hover,
+  .app-datepicker-shell .p-datepicker .p-datepicker-day:focus-visible,
+  .app-datepicker-shell .p-datepicker .p-datepicker-day-selected:focus-visible {
+    background: #0ea5e9 !important;
+    border-color: #0ea5e9 !important;
+    color: #ffffff !important;
+    box-shadow: none !important;
+    outline: none !important;
   }
 
   @media (max-width: 767px) {

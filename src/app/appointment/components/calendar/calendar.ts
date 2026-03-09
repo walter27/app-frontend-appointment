@@ -54,10 +54,6 @@ export class Calendar {
       minute: '2-digit',
       meridiem: 'short',
     },
-    events: (fetchInfo, successCallback) => {
-      successCallback(this.storeService.events())
-      this.storeService.setChangeFromDatePicker(false)
-    },
     eventsSet: () => {
       this.updateEmptyDayColumns();
       if (!this.storeService.changeFromDatePicker() && this.storeService.fullCalendar()) {
@@ -85,10 +81,11 @@ export class Calendar {
     eventClick: (arg: EventClickArg) => {
       const shifAssignedDto: ShiftAssignedDto = {
         id: null,
-        date_register: this.getLocalDateTime(),
-        employee_id: null,
-        customer_id: null,
-        appointment_id: Number(arg.event.id)
+        dateRegister: this.getLocalDateTime(),
+        employeeId: null,
+        customerId: null,
+        appointmentId: Number(arg.event.id),
+        attached: null
       }
       this.storeService.setLoadingAndSuccesAndError(false, false, false)
       this.storeService.setOpenModal(true);
@@ -100,48 +97,67 @@ export class Calendar {
     {
       name: 'id',
       label: 'Id',
+      step: 1,
+      row: 1,
+      column: 1,
       type: 'text',
       validators: []
     },
     {
       name: 'name',
       label: 'Name',
+      step: 1,
+      row: 2,
+      column: 1,
       type: 'text',
-      validators: [Validators.required, Validators.minLength(3), Validators.maxLength(50)]
+      validators: [Validators.required, Validators.minLength(1), Validators.maxLength(50)]
     },
     {
       name: 'last_name',
       label: 'Last name',
+      step: 1,
+      row: 3,
+      column: 1,
       type: 'text',
-      validators: [Validators.required, Validators.minLength(3), Validators.maxLength(50)]
+      validators: [Validators.required, Validators.minLength(1), Validators.maxLength(50)]
     },
     {
       name: 'email',
       label: 'Email',
+      step: 1,
+      row: 4,
+      column: 1,
       type: 'email',
       validators: [Validators.required, Validators.email]
     },
     {
-      name: 'type_document_id',
-      label: 'Document',
+      name: 'phone',
+      label: 'Phone',
+      step: 1,
+      row: 5,
+      column: 1,
+      type: 'text',
+      validators: [Validators.required, Validators.minLength(1), Validators.maxLength(20)]
+    },
+    {
+      name: 'ventity_type_id',
+      label: 'Type entity',
       type: 'select',
       options: [
-        { label: 'National ID', value: '1' },
-        { label: 'Passport', value: '2' }
+        { label: 'Natural Person', value: '1' },
+        { label: 'Legal Entity', value: '2' }
       ],
       validators: [Validators.required]
     },
     {
-      name: 'dni',
-      label: 'Dni',
-      type: 'text',
-      validators: [Validators.required, Validators.minLength(3), Validators.maxLength(50)]
-    },
-    {
-      name: 'phone',
-      label: 'Phone',
-      type: 'text',
-      validators: []
+      name: 'attached',
+      label: 'File',
+      step: 1,
+      row: 6,
+      column: 1,
+      type: 'file',
+      accept: '.pdf,.png,.jpg,.jpeg',
+      validators: [Validators.required]
     }
   ]
 
@@ -152,8 +168,9 @@ export class Calendar {
       const nextEvents = this.events();
       if (!api) return;
 
-      api.removeAllEvents();
+      api.removeAllEventSources();
       api.addEventSource(nextEvents);
+      this.storeService.setChangeFromDatePicker(false)
     });
   }
 
@@ -165,7 +182,7 @@ export class Calendar {
   }
 
   ngOnInit(): void {
-    this.appointmentService.getAppointments();
+    this.appointmentService.getAppointments('2026-02-01', '2026-03-31');
     this.storeService.setFields(this.fields)
   }
 
@@ -254,7 +271,21 @@ export class Calendar {
       this.storeService.setOpenModal(false)
       return
     }
-    this.formComponent?.submit();
+    const isFormValid = this.formComponent?.submitFromModalAction();
+    if (!isFormValid || !this.formComponent) {
+      return;
+    }
+
+    const attached = this.formComponent.form.get('attached')?.value as File | File[] | null;
+    const currentShiftAssigned = this.storeService.shiftAssignedDto();
+    if (currentShiftAssigned) {
+      const selectedFile = Array.isArray(attached) ? (attached[0] ?? null) : (attached ?? null);
+      this.storeService.setObject({
+        ...currentShiftAssigned,
+        attached: selectedFile
+      }, 'shiftAssigned');
+    }
+
     this.appointmentService.saveCustomer()
   }
 

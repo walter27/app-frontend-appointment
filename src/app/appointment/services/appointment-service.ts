@@ -1,7 +1,7 @@
 import { inject, Injectable } from '@angular/core';
 import { environment } from '../../../environments/environment.development';
 import { HttpClient, HttpErrorResponse, HttpParams } from '@angular/common/http';
-import { AppointmentDto, CustomerDto, DayDto, ShiftAssignedDto } from '../models';
+import { AppointmentDto, CustomerDto, ShiftAssignedDto } from '../models';
 import { StoreService } from '../store/store';
 import { eventAdapter } from '../adapters/appointment-adapter';
 import { throwError } from 'rxjs';
@@ -18,8 +18,21 @@ export class AppointmentService {
 
   saveCustomer(): void {
     const customer = this.storeService.customerDto()
+    if (!customer) return;
+
+    const customerPayload: CustomerDto = {
+      id: customer.id ?? null,
+      dni: customer.dni ?? '',
+      name: customer.name ?? '',
+      last_name: customer.last_name ?? '',
+      email: customer.email ?? '',
+      phone: customer.phone ?? '',
+      type_document_id: customer.type_document_id ?? null,
+      entity_type_id: Number(customer.entity_type_id ?? 1)
+    };
+
     this.storeService.setLoadingAndSuccesAndError(true, false, false)
-    this.http.post<CustomerDto>(`${this.baseUrl}/customers`, customer)
+    this.http.post<CustomerDto>(`${this.baseUrl}/customers`, customerPayload)
       .subscribe((response) => {
         this.storeService.setObject(response, 'customer')
         this.saveShiftAssigned()
@@ -36,18 +49,20 @@ export class AppointmentService {
   saveShiftAssigned() {
     const base = this.storeService.shiftAssignedDto();
     const customerId = this.storeService.customerDto()?.id ?? null;
-    if (!base) return;
-    const shiftAssignedDto: ShiftAssignedDto = {
-      id: null,
-      date_register: base.date_register ?? '',
-      customer_id: customerId,
-      employee_id: null,
-      appointment_id: base.appointment_id
-    };
-    this.http.post<ShiftAssignedDto>(`${this.baseUrl}/shift-assigned`, shiftAssignedDto)
+    if (!base || !customerId) return;
+
+    const formData = new FormData();
+    formData.append('customerId', String(customerId));
+    formData.append('appointmentId', String(base.appointmentId ?? ''));
+    formData.append('dateRegister', base.dateRegister ?? '');
+    if (base.attached instanceof File) {
+      formData.append('attached', base.attached, base.attached.name);
+    }
+
+    this.http.post<ShiftAssignedDto>(`${this.baseUrl}/shift-assigned`, formData)
       .subscribe((response) => {
         this.storeService.setLoadingAndSuccesAndError(false, true, false)
-        this.getAppointments()
+        this.getAppointments('2026-02-01', '2026-03-31')
       }, (err) => {
         this.storeService.setLoadingAndSuccesAndError(false, false, true)
       },)
