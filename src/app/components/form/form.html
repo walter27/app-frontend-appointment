@@ -137,7 +137,7 @@
               [formControlName]="field.name"
               class="app-custom-input app-custom-input-floating bg-transparent"
             >
-              <option value="">Select</option>
+              <option value=""></option>
               @for (opt of (field.options ?? []); track $index) {
                 <option [value]="opt.value">{{ opt.label }}</option>
               }

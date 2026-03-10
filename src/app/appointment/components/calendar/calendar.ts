@@ -141,8 +141,11 @@ export class Calendar {
     },
     {
       name: 'ventity_type_id',
-      label: 'Type entity',
+      label: 'Entity',
       type: 'select',
+      step: 1,
+      row: 7,
+      column: 1,
       options: [
         { label: 'Natural Person', value: '1' },
         { label: 'Legal Entity', value: '2' }

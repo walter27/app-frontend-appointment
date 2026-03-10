@@ -1,4 +1,4 @@
-import { Component, inject, input, output } from '@angular/core';
+import { Component, inject, output, signal } from '@angular/core';
 import { StoreService } from '../../appointment/store/store';
 
 @Component({
@@ -11,9 +11,23 @@ export class Modal {
 
   saved = output<void>();
   private storeService = inject(StoreService);
+  private closing = signal(false);
+  private closeDurationMs = 180;
+
+  isClosing(): boolean {
+    return this.closing();
+  }
 
   close(): void {
-    this.storeService.setOpenModal(false)
+    if (this.closing()) {
+      return;
+    }
+
+    this.closing.set(true);
+    setTimeout(() => {
+      this.storeService.setOpenModal(false);
+      this.closing.set(false);
+    }, this.closeDurationMs);
   }
 
   save(): void {

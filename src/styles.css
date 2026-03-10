@@ -72,7 +72,7 @@
   }
 
   .app-status-icon {
-    @apply flex h-16 w-16 shrink-0 items-center justify-center rounded-full border-0 sm:h-20 sm:w-20;
+    @apply flex h-16 w-16 shrink-0 items-center justify-center rounded-full border-2 sm:h-20 sm:w-20;
   }
 
   .app-status-success {
@@ -80,7 +80,7 @@
   }
 
   .app-status-success .app-status-icon {
-    @apply text-green-500;
+    @apply border-green-400 text-green-500;
   }
 
   .app-status-error {
@@ -88,19 +88,69 @@
   }
 
   .app-status-error .app-status-icon {
-    @apply text-rose-400;
+    @apply border-rose-300 text-rose-400;
   }
 }
 
 @layer utilities {
+  @keyframes app-modal-fade-in {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+
+  @keyframes app-modal-fade-out {
+    from {
+      opacity: 1;
+    }
+    to {
+      opacity: 0;
+    }
+  }
+
+  @keyframes app-modal-panel-in {
+    from {
+      opacity: 0;
+      transform: translateY(12px) scale(0.98);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0) scale(1);
+    }
+  }
+
+  @keyframes app-modal-panel-out {
+    from {
+      opacity: 1;
+      transform: translateY(0) scale(1);
+    }
+    to {
+      opacity: 0;
+      transform: translateY(10px) scale(0.98);
+    }
+  }
+
   .app-modal-backdrop {
     @apply fixed inset-0 z-50 flex items-center justify-center overflow-y-auto bg-slate-900/50 p-4;
+    animation: app-modal-fade-in 180ms ease-out;
+  }
+
+  .app-modal-backdrop--closing {
+    animation: app-modal-fade-out 160ms ease-in forwards;
   }
 
   .app-modal-panel {
     @apply relative max-h-[90vh] w-full max-w-md overflow-y-auto rounded-2xl border border-slate-200 bg-white shadow-xl;
     scrollbar-width: none;
     -ms-overflow-style: none;
+    animation: app-modal-panel-in 200ms ease-out;
+  }
+
+  .app-modal-panel--closing {
+    animation: app-modal-panel-out 160ms ease-in forwards;
   }
 
   .app-modal-panel::-webkit-scrollbar {

@@ -40,7 +40,7 @@
 }
 
 .app-input-shell {
-  @apply flex items-center rounded-md border border-gray-400 bg-stone-100 px-4 py-2 transition;
+  @apply flex items-center rounded-md border border-gray-400 bg-slate-50 px-4 py-2 transition;
   max-width: 19rem;
   width: 100%;
 }
@@ -58,7 +58,7 @@
 }
 
 .app-floating-field {
-  @apply relative rounded-md border border-gray-400 bg-stone-100 px-2 pb-2;
+  @apply relative rounded-md border border-gray-400 bg-slate-50 px-2 pb-2;
   width: 100%;
   overflow: visible;
 }
@@ -101,7 +101,7 @@
 }
 
 .app-file-shell {
-  @apply space-y-2 rounded-md border border-gray-400 bg-stone-100 px-4 py-3;
+  @apply space-y-2 rounded-md border border-gray-400 bg-slate-50 px-4 py-3;
   width: 100%;
 }
 
@@ -129,7 +129,7 @@
 }
 
 .app-radio-shell {
-  @apply flex flex-wrap gap-3 rounded-md border border-gray-400 bg-stone-100 p-3;
+  @apply flex flex-wrap gap-3 rounded-md border border-gray-400 bg-slate-50 p-3;
   max-width: 19rem;
   width: 100%;
 }

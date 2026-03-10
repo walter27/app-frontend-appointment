@@ -1,3 +1,3 @@
 export const environment = {
-    baseUrl: 'http://localhost:8080/appointment/api'
+    baseUrl: 'https://app-ws-appointment.onrender.com/appointment/api'
 };
